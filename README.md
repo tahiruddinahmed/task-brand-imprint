@@ -54,4 +54,33 @@ value,
 2.Employees can see only its login, can create customers, can create purchases.
   - employees can see their created customers purchases.
 
-  
+## Installation
+
+### Steps 
+1. Clone the repository 
+```bash
+git clone https://github.com/tahiruddinahmed/task-brand-imprint.git
+```
+
+2. Install PHP Dependencies: 
+```bash
+php composer install 
+```
+
+3. Setup Environment: 
+Go to the project directory `copy` the `.env.example`, create a new file called `.env` and past all the codes.
+
+```bash 
+cp .env.example .env
+```
+Open the `.env` file and configure your database connection and other settings
+
+4. Run PHP Migration and Seed the Database. 
+```bash
+php artisan migrate --seed
+```
+
+5. Start the project 
+```bash 
+php artisan serve
+```
