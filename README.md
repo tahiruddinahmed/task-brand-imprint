@@ -64,7 +64,7 @@ git clone https://github.com/tahiruddinahmed/task-brand-imprint.git
 
 2. Install PHP Dependencies: 
 ```bash
-php composer install 
+composer install 
 ```
 
 3. Setup Environment: 
@@ -75,12 +75,17 @@ cp .env.example .env
 ```
 Open the `.env` file and configure your database connection and other settings
 
-4. Run PHP Migration and Seed the Database. 
+4.Generate `APP_KEY`
+```bash
+php artisan key:generate
+```
+
+5. Run PHP Migration and Seed the Database. 
 ```bash
 php artisan migrate --seed
 ```
 
-5. Start the project 
+6. Start the project 
 ```bash 
 php artisan serve
 ```
