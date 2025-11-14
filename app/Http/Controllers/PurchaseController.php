@@ -39,10 +39,10 @@ class PurchaseController extends Controller
         Gate::authorize('create', Purchase::class);
 
         $user = auth()->user();
-        $customerQuery = Customer::latest()->get();
+        $customerQuery = Customer::latest();
 
         if($user->role === 'employee') {
-            $customerQuery = Customer::where('user_id', $user->id)->get();
+            $customerQuery = Customer::where('user_id', $user->id);
         } 
 
         return view('purchase.create', [

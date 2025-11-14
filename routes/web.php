@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route("login");
 });
 
 Route::get('/dashboard', function () {
@@ -59,7 +59,7 @@ Route::resource('customers', CustomerController::class)
     ->middleware(['auth', 'can:employee-management']);
 
 /**
- * Purchase routes 
+ * Purchase routes
  */
 Route::resource('purchases', PurchaseController::class)
     ->only(['index', 'create', 'store', 'destroy'])
