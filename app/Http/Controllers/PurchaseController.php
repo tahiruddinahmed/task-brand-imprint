@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PurchaseMail;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class PurchaseController extends Controller
 {
@@ -20,7 +22,7 @@ class PurchaseController extends Controller
         $user = auth()->user();
         $purchaseQuery = Purchase::with(['customer', 'product'])->latest();
 
-        if($user->role === 'employee') {
+        if ($user->role === 'employee') {
             $purchaseQuery = Purchase::whereHas('customer', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             });
@@ -41,14 +43,22 @@ class PurchaseController extends Controller
         $user = auth()->user();
         $customerQuery = Customer::latest();
 
-        if($user->role === 'employee') {
+        if ($user->role === 'employee') {
             $customerQuery = Customer::where('user_id', $user->id);
-        } 
+        }
 
         return view('purchase.create', [
             'customers' => $customerQuery->get(),
             'products' => Product::latest()->get()
         ]);
+    }
+
+    private function sendCustomerMail($purchase)
+    {
+        $purchase = $purchase->load(['customer', 'product']);
+
+        // sending mail to customer 
+        Mail::to($purchase->customer->email)->send(new PurchaseMail($purchase));
     }
 
     /**
@@ -64,10 +74,15 @@ class PurchaseController extends Controller
             'quantity' => 'required'
         ]);
 
-        Purchase::create($data);
+        $purchase = Purchase::create($data);
+
+        $this->sendCustomerMail($purchase);
 
         return redirect()->route('purchases.index')->with('success', 'Congrats, Purchase Successfull');
     }
+
+
+
 
     /**
      * Display the specified resource.

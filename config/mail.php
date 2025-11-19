@@ -103,6 +103,14 @@ return [
     ],
 
     /*
+    / Global "reply_to"
+    */
+    'reply_to' => [
+        'address' => env('MAIL_REPLY_TO_ADDRESS', 'no-reply@example.com'),
+        'name' => env('MAIL_REPLY_TO_NAME', 'Tahir Uddin Ahmed'),
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
     |--------------------------------------------------------------------------

@@ -45,7 +45,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create', Customer::class);
-        // if(!Gate::any(['employee', 'admin'])) {
+        // if(!Gate::any([employee', 'admin'])) {
         //     abort(403);
         // }
 
@@ -55,7 +55,7 @@ class CustomerController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
         ]);
 
-        
+
         Customer::create([
             ...$data,
             'address' => $request->address,
@@ -64,7 +64,7 @@ class CustomerController extends Controller
 
         return redirect()->route('customers.index')->with('success', 'A new customer is created');
 
-        
+
     }
 
     /**
@@ -88,7 +88,7 @@ class CustomerController extends Controller
         //     abort(403);
         // }
 
-        
+
         $data = $request->validate([
             'name' => 'required|string|max:30',
             'phone' => 'required',
@@ -106,7 +106,7 @@ class CustomerController extends Controller
 
 
     /**
-     * Trash data 
+     * Trash data
      */
     public function trashIndex() {
         Gate::authorize('viewany', Customer::class);
@@ -145,10 +145,10 @@ class CustomerController extends Controller
         $customer->delete();
 
         return redirect()->route('customers.index')->with('success', 'Customer is move into the trash, you can retrieve it when you want');
-        
+
     }
-    
-    
+
+
     /**
      * Remove the specified resource from storage.
     */
@@ -158,7 +158,7 @@ class CustomerController extends Controller
         Gate::authorize('forceDelete', $customer);
 
         $customer->forceDelete();
-        
+
         return redirect()->route('customers.trash')->with('success', 'Customer is permanently deleted!');
     }
 }
